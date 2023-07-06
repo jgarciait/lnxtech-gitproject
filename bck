@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Search</title>
+</head>
+<body>
+
+<?php
+include('connection.php');
+
+$button = $_GET ['submit'];
+$search = $_GET ['search'];
+
+
+
+$sql = "SELECT * FROM people WHERE first_name LIKE ('%" . $search ."%')";
+$run = mysqli_query($db,$sql);
+$foundnum = mysqli_num_rows($run);
+
+if($foundnum==0)
+{
+    echo "We were unable to find a product with a search term of '<b>$search</b>'.";
+}
+else{
+    echo "<h1><strong> $foundnum Results Found for \"" .$search."\" </strong></h1>";
+    $sql = "SELECT * FROM people WHERE first_name LIKE ('%" . $search ."%')";
+    $getquery = mysqli_query($db,$sql);
+
+    while($runrows = mysqli_fetch_array($getquery))
+    {
+        echo"<h5 class='card-title'>First Name: ". $runrows["first_name"]."</h5>";
+        echo"<h5 class='card-title'>Last Name: ". $runrows["last_name"]."</h5>";
+        echo"<h5 class='card-title'>Middle Name: ". $runrows["mid_name"]."</h5>";
+        echo"<h5 class='card-title'>Address: ". $runrows["address"]."</h5>";
+        echo"<h5 class='card-title'>Contact: ". $runrows["contact"]."</h5>";
+        echo"<h5 class='card-title'>Comment: ". $runrows["comment"]."</h5>";
+       
+    }}
+    mysqli_close($db);
+?>
+    <div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>First Name</th>
+                    <th>Las Name</th>
+                    <th>Middle Name</th>
+                    <th>Address</th>
+                    <th>Contact</th>
+                    <th>Comment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                echo "<h1><strong> $foundnum Results Found for \"" .$search."\" </strong></h1>";
+                $sql = "SELECT * FROM people WHERE first_name LIKE ('%" . $search ."%')";
+                $getquery = mysqli_query($db,$sql);
+
+                while($runrows = mysqli_fetch_array($getquery))
+                ?>
+                <tr>
+                    <td><?php echo $count;?></td>
+                    <td><?php echo $runrows['first_name'];?></td>
+                    <td><?php echo $runrows['last_name'];?></td>
+                    <td><?php echo $runrows['mid_name'];?></td>
+                    <td><?php echo $runrows['address'];?></td>
+                    <td><?php echo $runrows['contact'];?></td>
+                    <td><?php echo $runrows['comment'];?></td>
+                    <td>
+                    <?php echo '<a  type="button" class="btn btn-xs btn-warning" href="edit.php?action=edit & id='.$row['people_id'] . '"> EDIT </a>'; ?>
+                    <?php echo '<a  type="button" class="btn btn-xs btn-danger" href="del.php?type=people&delete & id='. $row['people_id'] . '">DELETE </a>'; ?>
+                    </td>
+                </tr>  
+            </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</body>
+</html>
+
+
+++++++++++++++++++++++
+
+
+
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.php">LennxTech</a>
+            </div>
+     
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li class="active">
+                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    
+                </ul>
+            </div>
+
+            <!-- /.navbar-collapse -->
+        </nav>
